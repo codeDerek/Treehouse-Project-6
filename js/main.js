@@ -1,15 +1,19 @@
 const qwerty = document.getElementById('qwerty');
-const keys = document.getElementById('.keyrow');
 const phrase = document.getElementById('phrase');
-const missed = 0;
+let missed = 0;
 const startButton = document.querySelector('.btn__reset');
-// let buttonPressed = event.key;
+const letters = document.getElementsByClassName('letter');
+
+let letterFound = null;
+const scoreBoard = document.getElementById('scoreboard');
+
+//selecting all letters
 
 //For the getRandomPhraseAsArray function
-var characters = [];
+let characters = [];
 
 //Phrases for game
-const phrases = [`Zebras Play Xylophones`, `George Washington had bad teeth`, `I love to code`, `Front End Web Developer for Hire`, `Disney World is VERY expensive`];
+const phrases = ["Hello There", `HTML and CSS`, `I love to code`, `Treehouse Rocks`, `Career Change`];
 
 //Functions
 
@@ -23,28 +27,33 @@ function getRandomPhraseAsArray(array) {
 //Take the array of letters and add each of them as a list item with the class "letter".
 function addPhraseToDisplay(characters) {
   for (let i = 0; i < characters.length; i += 1) {
-    const character = characters[i];
     const ul = document.getElementById('phrase');
     const li = document.createElement('li');
-    li.appendChild(document.createTextNode(character));
-    //if the li is a space, do nothing, otherwise add class "letter"
-    if (character === ' ') {} else {
-      li.classList.add('letter');
-      ul.appendChild(li);
+    li.appendChild(document.createTextNode(characters[i]));
+    phrase.appendChild(li);
+    //if the li is a space, add class name 'space', otherwise add class "letter"
+    if (characters[i] === " ") {
+      li.className = 'space';
+    } else {
+      li.className = 'letter';
     }
+    ul.appendChild(li);
   };
 }
 
 //When player presses button, check to see if letter matches letters. If they do, add the class 'show', return that letter. Otherwise, return null.
 function checkLetter(buttonPressed) {
   for (let i = 0; i < characters.length; i += 1) {
-    const letters = document.getElementById('.letter')
-    if (buttonPressed === letters[i]) {
+
+    if (buttonPressed.toLowerCase() === letters[i].textContent.toLowerCase()) {
       letters[i].classList.add('show');
+      found = letters[i].textContent.toLowerCase();
     } else {
-      return null
+      letterFound = null;
     }
+
   }
+return letterFound;
 }
 
 
@@ -60,9 +69,16 @@ startButton.addEventListener('click', () => {
 
 // Use event delegation to listen only to button events from the keyboard. When a player chooses a letter, add the “chosen” class to that button so the same letter can’t be chosen twice.
 
-
-//The code below isn't returning correct.
-// qwerty.addEventListener('click', (event) => {
-// event.target.classList.add('chosen');
-// checkLetter(event);
-// });
+qwerty.addEventListener('click', (event) => {
+  if (event.target.tagName === 'BUTTON') {
+    event.target.className = 'chosen';
+    event.target.disabled = true;
+    checkLetter(event.target.textContent);
+    if (letterFound === 'null') {
+      missed += 1;
+      console.log(missed);
+      //remove last item in li in scoreBoard
+      scoreBoard.removeChild('li');
+    }
+  }
+});
