@@ -47,7 +47,7 @@ function checkLetter(buttonPressed) {
 
     if (buttonPressed.toLowerCase() === letters[i].textContent.toLowerCase()) {
       letters[i].classList.add('show');
-      found = letters[i].textContent.toLowerCase();
+      letterFound = letters[i].textContent.toLowerCase();
     } else {
       letterFound = null;
     }
