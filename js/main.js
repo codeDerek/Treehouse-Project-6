@@ -43,7 +43,7 @@ function checkLetter(buttonPressed) {
   let letters = document.getElementsByClassName('letter');
   let arr = Array.from(letters);
   let correctLetter = false;
-  for (let i = 0; i < characters.length; i += 1) {
+  for (let i = 0; i < arr.length; i += 1) {
     if (buttonPressed.toLowerCase() === arr[i].textContent.toLowerCase()) {
       arr[i].classList.add('show');
     correctLetter = true;
@@ -75,9 +75,8 @@ qwerty.addEventListener('click', (event) => {
 //If the letter isn't correct, add 1 to missed and remove heart.
     if (letterFound === false) {
       missed += 1;
-      console.log(missed);
       //remove last item in li in scoreBoard
-      scoreBoard.removeChild('li');
+
     }
   }
 });
