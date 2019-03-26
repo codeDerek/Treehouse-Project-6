@@ -40,22 +40,17 @@ function addPhraseToDisplay(characters) {
 
 //When player presses button, check to see if letter matches letters. If they do, add the class 'show', return that letter. Otherwise, return null.
 function checkLetter(buttonPressed) {
-  const letters = document.getElementsByClassName('letter');
-  const arr = Array.from(letters);
+  let letters = document.getElementsByClassName('letter');
+  let arr = Array.from(letters);
+  let correctLetter = false;
   for (let i = 0; i < characters.length; i += 1) {
-let letterFound = null;
     if (buttonPressed.toLowerCase() === arr[i].textContent.toLowerCase()) {
       arr[i].classList.add('show');
-      letterFound = arr[i].textContent.toLowerCase();
-      console.log(letterFound);
-    } else {
-      letterFound = null;
-      console.log(letterFound);
+    correctLetter = true;
     }
-
-  }
-return letterFound;
-}
+    }
+return correctLetter;
+};
 
 
 //*************Start of Program***********//
@@ -71,12 +66,14 @@ startButton.addEventListener('click', () => {
 // Use event delegation to listen only to button events from the keyboard. When a player chooses a letter, add the “chosen” class to that button so the same letter can’t be chosen twice.
 
 qwerty.addEventListener('click', (event) => {
+
   if (event.target.tagName === 'BUTTON') {
     event.target.className = 'chosen';
     event.target.disabled = true;
     checkLetter(event.target.textContent);
+    let letterFound =   checkLetter(event.target.textContent);
 //If the letter isn't correct, add 1 to missed and remove heart.
-    if (letterFound === 'null') {
+    if (letterFound === false) {
       missed += 1;
       console.log(missed);
       //remove last item in li in scoreBoard
