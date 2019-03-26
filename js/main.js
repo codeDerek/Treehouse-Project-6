@@ -2,8 +2,12 @@ const qwerty = document.getElementById('qwerty');
 const phrase = document.getElementById('phrase');
 let missed = 0;
 const startButton = document.querySelector('.btn__reset');
-const scoreBoard = document.getElementById('scoreboard');
-
+let scoreBoard = document.getElementsByClassName('tries');
+let allClass = document.getElementsByClassName('show');
+let allLetters = document.getElementsByClassName('letter');
+let title = document.querySelector('.title');
+const winMessage = "You Win, Big Kahuna!"
+const loseMessage = "Wow.... That was... terrible...."
 //selecting all letters
 
 //For the getRandomPhraseAsArray function
@@ -11,6 +15,7 @@ let characters = [];
 
 //Phrases for game
 const phrases = ["Hello There", `HTML and CSS`, `I love to code`, `Treehouse Rocks`, `Career Change`];
+
 
 //Functions
 
@@ -46,12 +51,32 @@ function checkLetter(buttonPressed) {
   for (let i = 0; i < arr.length; i += 1) {
     if (buttonPressed.toLowerCase() === arr[i].textContent.toLowerCase()) {
       arr[i].classList.add('show');
+      arr[i].style.transition = "2s";
     correctLetter = true;
     }
     }
 return correctLetter;
 };
 
+function checkWin() {
+  if (allClass.length === allLetters.length ) {
+    console.log("Yes!");
+overlay.style.visibility = "visible";
+    overlay.className = "win";
+title.innerHTML = winMessage;
+startButton.textContent = "Play Again"
+} else if (missed >= 5) {
+  overlay.style.visibility = "visible";
+  overlay.className = "lose";
+  title.innerHTML = loseMessage;
+  startButton.textContent = "Try Again?"
+    console.log("no!");
+  }
+}
+
+function reset() {
+  window.location.reload();
+}
 
 //*************Start of Program***********//
 
@@ -74,9 +99,14 @@ qwerty.addEventListener('click', (event) => {
     let letterFound =   checkLetter(event.target.textContent);
 //If the letter isn't correct, add 1 to missed and remove heart.
     if (letterFound === false) {
+      console.log(scoreBoard[missed]);
+scoreBoard[missed].style.display = "none";
       missed += 1;
-      //remove last item in li in scoreBoard
-
     }
   }
+  checkWin()
+  //After game, button will reset page to default.
+  startButton.addEventListener('click', () => {
+    reset();
+  })
 });
