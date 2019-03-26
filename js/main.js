@@ -2,9 +2,6 @@ const qwerty = document.getElementById('qwerty');
 const phrase = document.getElementById('phrase');
 let missed = 0;
 const startButton = document.querySelector('.btn__reset');
-const letters = document.getElementsByClassName('letter');
-
-
 const scoreBoard = document.getElementById('scoreboard');
 
 //selecting all letters
@@ -43,13 +40,17 @@ function addPhraseToDisplay(characters) {
 
 //When player presses button, check to see if letter matches letters. If they do, add the class 'show', return that letter. Otherwise, return null.
 function checkLetter(buttonPressed) {
+  const letters = document.getElementsByClassName('letter');
+  const arr = Array.from(letters);
   for (let i = 0; i < characters.length; i += 1) {
 let letterFound = null;
-    if (buttonPressed.toLowerCase() === letters[i].textContent.toLowerCase()) {
-      letters[i].classList.add('show');
-      letterFound = letters[i].textContent.toLowerCase();
+    if (buttonPressed.toLowerCase() === arr[i].textContent.toLowerCase()) {
+      arr[i].classList.add('show');
+      letterFound = arr[i].textContent.toLowerCase();
+      console.log(letterFound);
     } else {
       letterFound = null;
+      console.log(letterFound);
     }
 
   }
